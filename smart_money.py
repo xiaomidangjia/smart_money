@@ -42,17 +42,21 @@ while True:
                     #有btc转出时，余额变少了
                     if value - pre_data['value'][len(pre_data)-1] < -100:
                         alert = '【聪明地址转出】：' + str(value - pre_data['value'][len(pre_data)-1]) + '个ETH'
+                        # 钉钉报警
+                        xiaoding = DingtalkChatbot(webhook)
+                        xiaoding.send_markdown(title='数据监控', text=alert)
                         logo = 1
                     #有btc转入时，余额变多了    
                     elif value - pre_data['value'][len(pre_data)-1] > 100:
                         alert = '【聪明地址转入】：' + str(value - pre_data['value'][len(pre_data)-1]) + '个ETH'
+                        # 钉钉报警
+                        xiaoding = DingtalkChatbot(webhook)
+                        xiaoding.send_markdown(title='数据监控', text=alert)
                         logo = 1
                     #防止粉尘攻击
                     else:
                         logo = 1
-                    # 钉钉报警
-                    xiaoding = DingtalkChatbot(webhook)
-                    xiaoding.send_markdown(title='数据监控', text=alert)
+
                     #把最新数据写入csv文件中
                     date_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
                     df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':value},index=[0]) 
