@@ -45,7 +45,6 @@ addresses = ['0x111cff45948819988857bbf1966a0399e0d1141e']
 types = [1]
 
 while True:
-    tot_values = []
     for i in range(1):
         sub_address = addresses[i]
         sub_type = types[i]
@@ -59,8 +58,7 @@ while True:
                 print(data)
                 code = str(data['code'])
                 if code == '1':
-                    value = round(float(data['data']),2)
-                    tot_values.append(value)
+                    now_value = round(float(data['data']),2)
                     # 读取上一时刻的余额数据
                     name = 'pre_data_' + str(i+1) + '.csv' 
                     pre_data = pd.read_csv(name)
@@ -68,11 +66,9 @@ while True:
                     pre_data = pre_data.sort_values(by='date')
                     pre_data = pre_data.reset_index(drop=True)
                     print('余额变化——————' + str(value - pre_data['value'][len(pre_data)-1]))
-                    change =  value - pre_data['value'][len(pre_data)-1] 
+                    change =  now_value - pre_data['value'][len(pre_data)-1] 
                     #有btc转出时，余额变少了
-                    if value == 0:
-                        logo = 1
-                    elif change < -100:
+                    if change < -100:
                         # 做图片
                         url ='https://services.tokenview.io/vipapi/address/balancetrend/eth/0x111cff45948819988857bbf1966a0399e0d1141e?apikey=5u0dNQPd55eoEwFPwF2A'
                         session = Session()
@@ -167,14 +163,14 @@ while True:
                         xiaoding.send_markdown(title='聪明钱监控', text=txt)
                         #把最新数据写入csv文件中
                         date_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':value},index=[0]) 
+                        df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':now_value},index=[0]) 
                         df_now = pd.concat([pre_data,df_now])
                         df_now['date'] = pd.to_datetime(df_now['date'])
                         df_now = df_now.sort_values(by='date')
                         df_now = df_now.reset_index(drop=True)
                         df_now = df_now[-10:]
                         #print(df_now)
-                        df_now.to_csv(name,index=False)
+                        df_now.to_csv('pre_data_1',index=False)
                         logo = 1
                     #有btc转入时，余额变多了    
                     elif change > 100:
@@ -273,14 +269,14 @@ while True:
 
                         #把最新数据写入csv文件中
                         date_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                        df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':value},index=[0]) 
+                        df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':now_value},index=[0]) 
                         df_now = pd.concat([pre_data,df_now])
                         df_now['date'] = pd.to_datetime(df_now['date'])
                         df_now = df_now.sort_values(by='date')
                         df_now = df_now.reset_index(drop=True)
                         df_now = df_now[-10:]
                         #print(df_now)
-                        df_now.to_csv(name,index=False)
+                        df_now.to_csv('pre_data_1',index=False)
                         logo = 1
                     #防止粉尘攻击
                     else:
