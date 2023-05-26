@@ -65,7 +65,7 @@ while True:
                     pre_data['date'] = pd.to_datetime(pre_data['date'])
                     pre_data = pre_data.sort_values(by='date')
                     pre_data = pre_data.reset_index(drop=True)
-                    print('余额变化——————' + str(value - pre_data['value'][len(pre_data)-1]))
+                    print('余额变化——————' + str(now_value - pre_data['value'][len(pre_data)-1]))
                     change =  now_value - pre_data['value'][len(pre_data)-1] 
                     #有btc转出时，余额变少了
                     if change < -100:
