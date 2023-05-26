@@ -169,7 +169,7 @@ while True:
                     df_now = df_now.reset_index(drop=True)
                     df_now = df_now[-10:]
                     #print(df_now)
-                    df_now.to_csv('pre_data_1',index=False)
+                    df_now.to_csv('pre_data_1.csv',index=False)
                     logo = 1
                 #有btc转入时，余额变多了    
                 elif change > 100:
@@ -275,7 +275,7 @@ while True:
                     df_now = df_now.reset_index(drop=True)
                     df_now = df_now[-10:]
                     #print(df_now)
-                    df_now.to_csv('pre_data_1',index=False)
+                    df_now.to_csv('pre_data_1.csv',index=False)
                     logo = 1
                 #防止粉尘攻击
                 else:
