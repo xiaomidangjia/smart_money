@@ -56,6 +56,7 @@ while True:
             try:
                 response = session.get(url_2)
                 data = json.loads(response.text)
+                print(data)
                 code = str(data['code'])
                 if code == '1':
                     value = round(float(data['data']),2)
@@ -66,7 +67,7 @@ while True:
                     pre_data['date'] = pd.to_datetime(pre_data['date'])
                     pre_data = pre_data.sort_values(by='date')
                     pre_data = pre_data.reset_index(drop=True)
-                    #print('余额变化——————' + str(value - pre_data['value'][len(pre_data)-1]))
+                    print('余额变化——————' + str(value - pre_data['value'][len(pre_data)-1]))
                     change =  value - pre_data['value'][len(pre_data)-1] 
                     #有btc转出时，余额变少了
                     if value == 0:
@@ -164,6 +165,16 @@ while True:
                               '> ###### 币coin搜索0xCarson,关注OKX实盘。 \n'%(now_time,str(-change),img_url)
 
                         xiaoding.send_markdown(title='聪明钱监控', text=txt)
+                        #把最新数据写入csv文件中
+                        date_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':value},index=[0]) 
+                        df_now = pd.concat([pre_data,df_now])
+                        df_now['date'] = pd.to_datetime(df_now['date'])
+                        df_now = df_now.sort_values(by='date')
+                        df_now = df_now.reset_index(drop=True)
+                        df_now = df_now[-10:]
+                        #print(df_now)
+                        df_now.to_csv(name,index=False)
                         logo = 1
                     #有btc转入时，余额变多了    
                     elif change > 100:
@@ -259,21 +270,23 @@ while True:
                               '> ###### 币coin搜索0xCarson,关注OKX实盘。 \n'%(now_time,str(change),img_url)
 
                         xiaoding.send_markdown(title='聪明钱监控', text=txt)
+
+                        #把最新数据写入csv文件中
+                        date_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+                        df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':value},index=[0]) 
+                        df_now = pd.concat([pre_data,df_now])
+                        df_now['date'] = pd.to_datetime(df_now['date'])
+                        df_now = df_now.sort_values(by='date')
+                        df_now = df_now.reset_index(drop=True)
+                        df_now = df_now[-10:]
+                        #print(df_now)
+                        df_now.to_csv(name,index=False)
                         logo = 1
                     #防止粉尘攻击
                     else:
                         logo = 1
 
-                    #把最新数据写入csv文件中
-                    date_now = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-                    df_now = pd.DataFrame({'date':date_now,'address':sub_address,'value':value},index=[0]) 
-                    df_now = pd.concat([pre_data,df_now])
-                    df_now['date'] = pd.to_datetime(df_now['date'])
-                    df_now = df_now.sort_values(by='date')
-                    df_now = df_now.reset_index(drop=True)
-                    df_now = df_now[-10:]
-                    #print(df_now)
-                    df_now.to_csv(name,index=False)
+
 
                 else:
                     logo = 1
