@@ -38,7 +38,7 @@ def gmt_img_url(key=None,local_file=None,**kwargs):
     #private_url = q.private_download_url(url)
 
     return url
-webhook = 'https://oapi.dingtalk.com/robot/send?access_token=a9789d2739819eab19b07dcefe30df3fcfd9f815bf198ced54c71c557f09e7d9'
+webhook = 'https://oapi.dingtalk.com/robot/send?access_token=69d2f134c31ced0426894ed975f29b519c1a8bd163a808840ef5812c5a0477a1'
 session = Session()
 
 addresses = ['0x111cff45948819988857bbf1966a0399e0d1141e']
@@ -55,8 +55,8 @@ while True:
     data = json.loads(response.text)
     print(data)
     code = str(data['code'])
-    if code == '1':
-        now_value = round(float(data['data']),2)
+    now_value = round(float(data['data']),2)
+    if code == '1' and now_value > 1:
         # 读取上一时刻的余额数据
         pre_data = pd.read_csv('pre_data_1.csv')
         pre_data['date'] = pd.to_datetime(pre_data['date'])
