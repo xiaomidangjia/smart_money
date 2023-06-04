@@ -153,7 +153,7 @@ while True:
             xiaoding = DingtalkChatbot(webhook)
 
             txt = '【聪明钱地址监控】 @所有人\n' \
-                  '> 北京时间%s该地址转出%s个ETH，注意聪明钱正在出货。\n\n' \
+                  '> 北京时间%s该地址转出%s个ETH，聪明钱逐步出货一般意味着价格会上涨。\n\n' \
                   '> ![数据监控结果](%s)\n'\
                   '> ###### 币coin搜索0xCarson,关注OKX实盘。 \n'%(now_time,str(-change),img_url)
 
@@ -257,7 +257,7 @@ while True:
             xiaoding = DingtalkChatbot(webhook)
 
             txt = '【聪明钱地址监控】 @所有人\n' \
-                  '> 北京时间%s该地址转入%s个ETH，注意聪明钱正在低位吸货。\n\n' \
+                  '> 北京时间%s该地址转入%s个ETH，聪明钱吸货一般意味着价格下跌，逐步建仓。\n\n' \
                   '> ![数据监控结果](%s)\n'\
                   '> ###### 币coin搜索0xCarson,关注OKX实盘。 \n'%(now_time,str(change),img_url)
 
